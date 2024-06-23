@@ -3,15 +3,24 @@
         <input type="number" v-model="room_id"/>
         <input type="text" v-model="message">
         <button class="btn">Send</button>
+        <div class="chat"></div>
     </div>
 </template>
 
 <script>
-    const {io} = require("socket.io-client");
-const socket = io("http://localhost:3001");
+const {io} = require("socket.io-client");
+const socket = io("http://localhost:3001", {
+    auth: {
+        token: 'secret'
+    }
+});
 
 socket.on('message', (data) => {
     console.log(data);
+})
+
+socket.on('connect_error', (data) => {
+    console.error(data);
 })
 
 import HelloWord from '@/components/HelloWorld.vue'
